@@ -1,12 +1,26 @@
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
+import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from "react";
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
+    setIsMenuOpen(false);
     const element = document.querySelector(targetId);
     if (element) {
-      const offset = 80; // Offset for fixed header
+      const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -17,50 +31,74 @@ export function Header() {
     }
   };
 
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <img src="/logo-horizontal.png" alt="Swift DataWorks" className="h-10" />
-        </div>
-        
-        <nav className="hidden md:flex items-center gap-8">
-          <a 
-            href="#features" 
-            onClick={(e) => handleScrollTo(e, '#features')}
-            className="text-gray-700 hover:text-[#0063F9] transition-colors cursor-pointer"
-          >
-            Características
-          </a>
-          <a 
-            href="#benefits" 
-            onClick={(e) => handleScrollTo(e, '#benefits')}
-            className="text-gray-700 hover:text-[#0063F9] transition-colors cursor-pointer"
-          >
-            Beneficios
-          </a>
-          <a 
-            href="#pricing" 
-            onClick={(e) => handleScrollTo(e, '#pricing')}
-            className="text-gray-700 hover:text-[#0063F9] transition-colors cursor-pointer"
-          >
-            Precios
-          </a>
-          <a 
-            href="#contact" 
-            onClick={(e) => handleScrollTo(e, '#contact')}
-            className="text-gray-700 hover:text-[#0063F9] transition-colors cursor-pointer"
-          >
-            Contacto
-          </a>
-        </nav>
+  const menuItems = [
+    { href: "#features", label: "Servicios" },
+    { href: "#benefits", label: "Beneficios" },
+    { href: "#pricing", label: "Precios" },
+    { href: "#contact", label: "Contacto" }
+  ];
 
-        <div className="flex items-center">
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="h-6 w-6" />
-          </Button>
+  return (
+    <>
+      <motion.header 
+        className={`absolute top-0 left-0 right-0 z-50 transition-all duration-300`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-end">
+          <motion.button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </motion.button>
         </div>
-      </div>
-    </header>
+      </motion.header>
+
+      {/* Fullscreen Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="fixed inset-0 z-40 bg-[#0063F9]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.nav 
+              className="flex flex-col items-center justify-center h-full gap-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+            >
+              {menuItems.map((item, index) => (
+                <motion.a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => handleScrollTo(e, item.href)}
+                  className="text-white text-4xl md:text-5xl font-bold hover:text-white/70 transition-colors cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3, delay: 0.1 + index * 0.1 }}
+                  whileHover={{ scale: 1.1, x: 20 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item.label}
+                </motion.a>
+              ))}
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
