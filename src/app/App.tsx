@@ -5,6 +5,7 @@ import { Benefits } from "@/app/components/Benefits";
 import { Pricing } from "@/app/components/Pricing";
 import { Contact } from "@/app/components/Contact";
 import { Footer } from "@/app/components/Footer";
+import { ScrollToTop } from "@/app/components/ScrollToTop";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
       <Pricing />
       <Contact />
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
