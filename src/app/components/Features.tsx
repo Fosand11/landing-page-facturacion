@@ -1,32 +1,35 @@
 import { motion } from "motion/react";
-import { Database, FileText, Zap, Check } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Database, Zap, Check, ShieldCheck, ArrowUpRight } from "lucide-react";
 
 const services = [
   {
     icon: Database,
-    title: "Organización y automatización de datos",
-    description: "Si hoy tienes información regada en Excel, PDFs, CSV o archivos, te ayudamos a poner orden y que se trabaje sola.",
+    title: "Facturación electrónica (DTE) y datos ordenados",
+    description: "Implementamos la facturación electrónica y dejamos tu información organizada para reportes y cierres claros.",
     color: "#0063F9",
     benefits: [
-      "Unimos información de distintas fuentes en un solo lugar",
-      "Revisamos que los datos estén correctos (sin errores ni duplicados)",
-      "Te dejamos reportes listos (ventas, compras, cierres, etc.)",
+      "Configuración y validación de DTE con flujo claro",
+      "Centralizamos ventas, compras y documentos en un solo lugar",
+      "Reportes listos para contabilidad y cierres",
       "Automatizamos tareas repetitivas para ahorrar tiempo"
     ],
-    result: "Un proceso claro que te entrega la información lista, más una guía simple para usarlo."
+    result: "Un sistema de facturación funcionando y datos listos para tomar decisiones."
   },
   {
-    icon: FileText,
-    title: "Facturación electrónica (DTE) sin complicaciones",
-    description: "Te ayudamos a facturar de forma electrónica con un sistema que hace el proceso más fácil y ordenado.",
+    icon: ShieldCheck,
+    title: "QA automatizado y pruebas funcionales",
+    description: "Diseñamos y ejecutamos pruebas para asegurar que tus sistemas funcionen bien antes de salir a producción.",
     color: "#00A3FF",
     benefits: [
-      "Creación de facturas paso a paso (para reducir errores)",
-      "Firma y envío de la factura electrónica",
-      "Confirmación de si fue aceptada o rechazada",
-      "Historial y orden de documentos para contabilidad"
+      "Planes de prueba para funcionalidades criticas",
+      "Pruebas manuales y automatizadas segun prioridad",
+      "Reportes claros con hallazgos y sugerencias",
+      "Acompanamiento en correcciones y retesteo"
     ],
-    result: "Un flujo de facturación funcionando, con acompañamiento para que tu equipo lo use con confianza."
+    result: "Lanzamientos mas seguros y menos errores visibles al cliente.",
+    href: "/qa",
+    cta: "Ver detalle"
   },
   {
     icon: Zap,
@@ -39,7 +42,9 @@ const services = [
       "Te ayudamos a reducir errores y atrasos",
       "Podemos dejar avisos y recordatorios automáticos cuando algo pase"
     ],
-    result: "Procesos más rápidos, ordenados y fáciles de controlar, con automatizaciones claras y listas para usarse."
+    result: "Procesos más rápidos, ordenados y fáciles de controlar, con automatizaciones claras y listas para usarse.",
+    href: "/n8n",
+    cta: "Ver detalle"
   }
 ];
 
@@ -111,15 +116,14 @@ export function Features() {
         >
           {services.map((service, index) => {
             const Icon = service.icon;
-            return (
+            const Card = (
               <motion.div
-                key={index}
                 variants={cardVariants}
-                whileHover={{ 
+                whileHover={{
                   y: -10,
                   boxShadow: `0 25px 70px -15px ${service.color}30`
                 }}
-                className="group relative rounded-3xl p-8 bg-white border-2 border-gray-200 hover:border-transparent transition-colors duration-300 flex flex-col"
+                className="relative rounded-3xl p-8 bg-white border-2 border-gray-200 hover:border-transparent transition-colors duration-300 flex flex-col h-full"
               >
                 {/* Icon */}
                 <motion.div 
@@ -174,6 +178,12 @@ export function Features() {
                   <p className="text-sm text-gray-600 leading-relaxed">
                     {service.result}
                   </p>
+                  {service.href && (
+                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-gray-900">
+                      <span>{service.cta}</span>
+                      <ArrowUpRight className="h-4 w-4" />
+                    </div>
+                  )}
                 </motion.div>
 
                 {/* Hover gradient overlay */}
@@ -184,6 +194,25 @@ export function Features() {
                   }}
                 />
               </motion.div>
+            );
+
+            if (service.href) {
+              return (
+                <Link
+                  key={index}
+                  to={service.href}
+                  className="group block h-full"
+                  aria-label={service.title}
+                >
+                  {Card}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={index} className="group h-full">
+                {Card}
+              </div>
             );
           })}
         </motion.div>
