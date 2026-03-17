@@ -1,23 +1,14 @@
 import { Menu, X } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
-    setIsMenuOpen(false);
+  const handleScrollTo = (targetId: string) => {
     const element = document.querySelector(targetId);
     if (element) {
       const offset = 80;
@@ -31,11 +22,33 @@ export function Header() {
     }
   };
 
+  const handleMenuClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: { href: string; label: string; type: "hash" | "route" }
+  ) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+
+    if (item.type === "route") {
+      navigate(item.href);
+      return;
+    }
+
+    if (location.pathname !== "/") {
+      navigate(`/${item.href}`);
+      return;
+    }
+
+    handleScrollTo(item.href);
+  };
+
   const menuItems = [
-    { href: "#features", label: "Servicios" },
-    { href: "#benefits", label: "Beneficios" },
-    { href: "#pricing", label: "Precios" },
-    { href: "#contact", label: "Contacto" }
+    { href: "#features", label: "Servicios", type: "hash" as const },
+    { href: "/qa", label: "QA y Pruebas", type: "route" as const },
+    { href: "/n8n", label: "Automatizaciones n8n", type: "route" as const },
+    { href: "#benefits", label: "Beneficios", type: "hash" as const },
+    { href: "#pricing", label: "Precios", type: "hash" as const },
+    { href: "#contact", label: "Contacto", type: "hash" as const }
   ];
 
   return (
@@ -83,7 +96,7 @@ export function Header() {
                 <motion.a
                   key={item.href}
                   href={item.href}
-                  onClick={(e) => handleScrollTo(e, item.href)}
+                  onClick={(e) => handleMenuClick(e, item)}
                   className="text-white text-4xl md:text-5xl font-bold hover:text-white/70 transition-colors cursor-pointer"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
