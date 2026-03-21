@@ -34,7 +34,6 @@ export function Header() {
   const menuItems = [
     { href: "#features", label: "Servicios" },
     { href: "#benefits", label: "Beneficios" },
-    { href: "#pricing", label: "Precios" },
     { href: "#contact", label: "Contacto" }
   ];
 

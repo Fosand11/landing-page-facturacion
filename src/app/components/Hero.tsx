@@ -84,7 +84,7 @@ export function Hero() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              Facturación electrónica y automatización
+              Facturación electrónica y automatización de procesos
             </motion.p>
 
             <motion.p 
@@ -93,7 +93,7 @@ export function Hero() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              Transformamos tus procesos manuales en sistemas automatizados. 
+              Transformamos tus procesos manuales en procesos automatizados. 
               Desde organizar tus datos hasta facturar sin complicaciones.
             </motion.p>
 
@@ -111,7 +111,7 @@ export function Hero() {
                 whileTap={{ scale: 0.98 }}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  Solicitar diagnóstico
+                  Solicitar Demo
                   <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <motion.div

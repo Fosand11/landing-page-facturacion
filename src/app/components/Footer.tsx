@@ -47,15 +47,6 @@ export function Footer() {
                   Beneficios
                 </a>
               </li>
-              <li>
-                <a 
-                  href="#pricing" 
-                  onClick={(e) => { e.preventDefault(); handleScrollTo('#pricing'); }}
-                  className="text-gray-400 hover:text-white transition-colors cursor-pointer"
-                >
-                  Precios
-                </a>
-              </li>
             </ul>
           </div>
 

@@ -7,7 +7,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 bg-gradient-to-br from-[#0063F9] via-[#0063F9] to-[#00A3FF]">
+    <section id="contact" className="min-h-screen py-24 px-6 bg-gradient-to-br from-[#0063F9] via-[#0063F9] to-[#00A3FF] flex items-center">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -16,7 +16,7 @@ export function Contact() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
-            ¿Listo para transformar tu facturación?
+            ¿Listo para transformar tu negocio?
           </h2>
           <p className="text-2xl md:text-3xl mb-16 text-white/90 font-light">
             Únete a Swift DataWorks.
@@ -40,7 +40,7 @@ export function Contact() {
             </div>
             <div className="font-semibold text-white mb-2 text-lg">Email</div>
             <a href="mailto:contacto@swiftdataworks.com" className="text-white/90 hover:text-white transition-colors">
-              contacto@swiftdataworks.com
+              contacto@swiftdataworks.net
             </a>
           </motion.div>
 
