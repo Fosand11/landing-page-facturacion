@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 
 export function Contact() {
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/50300000000', '_blank');
+    window.open('https://wa.me/50370590940', '_blank');
   };
 
   return (
@@ -53,8 +53,8 @@ export function Contact() {
               <Phone className="h-8 w-8 text-white" />
             </div>
             <div className="font-semibold text-white mb-2 text-lg">Teléfono</div>
-            <a href="tel:+50300000000" className="text-white/90 hover:text-white transition-colors">
-              +503 0000-0000
+            <a href="tel:+50370590940" className="text-white/90 hover:text-white transition-colors">
+              +503 7059-0940
             </a>
           </motion.div>
 
