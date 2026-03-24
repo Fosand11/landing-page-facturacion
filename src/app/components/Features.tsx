@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Database, FileText, Zap, Check, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
+import type { Variants } from "motion/react";
 
 const services = [
   {
@@ -60,7 +61,7 @@ const services = [
   }
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -71,7 +72,7 @@ const containerVariants = {
   }
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { 
     opacity: 0,
     y: 50,
@@ -82,7 +83,7 @@ const cardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      type: "spring" as const,
+      type: "spring",
       damping: 20,
       stiffness: 100,
       duration: 0.6
@@ -90,7 +91,7 @@ const cardVariants = {
   }
 };
 
-const iconVariants = {
+const iconVariants: Variants = {
   hover: {
     scale: 1.1,
     rotate: [0, -10, 10, -10, 0],
