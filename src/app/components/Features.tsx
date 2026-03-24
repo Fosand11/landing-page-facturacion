@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
-import { Database, FileText, Zap, Check } from "lucide-react";
+import { Database, FileText, Zap, Check, ShieldCheck } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const services = [
   {
@@ -36,6 +37,7 @@ const services = [
     trustText: "Capacitación incluida",
     oneTimePrice: "$299",
     monthlyPrice: "$29",
+    paymentWidgetUrl: "https://pagos.wompi.sv/IntentoPago/Redirect?id=a0948db7-b99d-4679-b513-e647e6cde085&esWidget=1",
     ctaPrimary: "Solicitar demo",
     ctaSecondary: "Ver funcionalidades",
     ctaSecondaryTarget: "#facturador-funcionalidades",
@@ -99,6 +101,17 @@ const iconVariants = {
 };
 
 export function Features() {
+  const [wompiModalUrl, setWompiModalUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!wompiModalUrl) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [wompiModalUrl]);
+
   const handleScrollTo = (targetId: string) => {
     const element = document.querySelector(targetId);
     if (!element) return;
@@ -231,6 +244,26 @@ export function Features() {
                   </div>
                 )}
 
+                {service.paymentWidgetUrl && (
+                  <div className="mb-3 rounded-2xl border border-[#BFDBFE] bg-white p-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-[#1D4ED8] mb-2">
+                      Pago en linea
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setWompiModalUrl(service.paymentWidgetUrl)}
+                      className="w-full rounded-xl bg-gradient-to-r from-[#4C67F5] to-[#3B5CF6] text-white px-4 py-3 text-base font-semibold hover:from-[#455fe8] hover:to-[#3454ea] transition-colors inline-flex items-center justify-center gap-2 shadow-sm"
+                    >
+                      <span className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center">
+                        <ShieldCheck className="h-4 w-4 text-white" />
+                      </span>
+                      <span>
+                        Pagar con <strong>Wompi</strong>
+                      </span>
+                    </button>
+                  </div>
+                )}
+
                 {service.ctaPrimary && (
                   <div className={`mb-4 grid gap-2 ${service.ctaSecondary ? "grid-cols-2" : "grid-cols-1"}`}>
                     <button
@@ -280,6 +313,36 @@ export function Features() {
           })}
         </motion.div>
       </div>
+
+      {wompiModalUrl && (
+        <div
+          className="fixed inset-0 z-[1200] bg-black/60 backdrop-blur-[2px] p-3 sm:p-6 flex items-center justify-center"
+          onClick={() => setWompiModalUrl(null)}
+        >
+          <div
+            className="w-full max-w-5xl h-[92vh] bg-white rounded-2xl overflow-hidden shadow-2xl border border-gray-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="h-12 px-4 border-b border-gray-200 flex items-center justify-between">
+              <p className="text-sm font-semibold text-gray-900">Pagar con Wompi</p>
+              <button
+                type="button"
+                onClick={() => setWompiModalUrl(null)}
+                className="text-gray-500 hover:text-gray-900 text-xl leading-none"
+                aria-label="Cerrar checkout"
+              >
+                ×
+              </button>
+            </div>
+            <iframe
+              src={wompiModalUrl}
+              title="Checkout Wompi"
+              className="w-full h-[calc(92vh-48px)]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

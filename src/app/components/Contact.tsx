@@ -22,7 +22,7 @@ export function Contact() {
             Únete a Swift DataWorks.
           </p>
         </motion.div>
-
+        
         <motion.div 
           className="grid md:grid-cols-3 gap-8 mb-12"
           initial={{ opacity: 0, y: 30 }}
